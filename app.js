@@ -48,20 +48,16 @@ const btnAdicionar = document.getElementById('addBtn');
 const inputTitulo = document.getElementById('tituloInput');
 const inputDescricao = document.getElementById('descricaoInput');
 const listaTarefas = document.getElementById('listaTarefas');
-// Escutando o clique do botão
 btnAdicionar.addEventListener('click', () => {
     const titulo = inputTitulo.value.trim();
     const descricao = inputDescricao.value.trim();
-    // Validação básica: não deixa criar tarefa sem título
+    //não deixa criar tarefa sem título
     if (titulo === "") {
         alert("Por favor, digite um título para a tarefa!");
         return;
     }
-    // 1. Instancia uma nova Tarefa usando a nossa Classe (POO)
     const novaTarefa = new Tarefa(titulo, descricao);
-    // 2. Renderiza o HTML dela e adiciona na lista da tela (DOM)
     listaTarefas.appendChild(novaTarefa.renderizar());
-    // 3. Limpa os campos de input para a próxima tarefa
     inputTitulo.value = "";
     inputDescricao.value = "";
 });
