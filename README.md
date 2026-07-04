@@ -4,8 +4,8 @@ Este repositório contém a implementação do iTask Manager, desenvolvido em Ty
 
 
 # Requisições da Semana
-Paradigma de Programação e Arquitetura
-Manipulação do DOM e Fluxo de Dados
+1. Paradigma de Programação e Arquitetura
+2. Manipulação do DOM e Fluxo de Dados
 
 
 # Como Executar o Projeto:
