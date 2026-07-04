@@ -2,38 +2,38 @@
 class Tarefa {
     titulo;
     descricao;
-    dataCriacao;
+    dataLimite;
     concluida;
-    constructor(titulo, descricao) {
+    constructor(titulo, descricao, dataLimite) {
         this.titulo = titulo;
         this.descricao = descricao;
-        this.dataCriacao = new Date();
-        this.concluida = false; //toda tarefa começa aberta
+        this.dataLimite = dataLimite ? dataLimite : null;
+        this.concluida = false;
     }
     renderizar() {
         const li = document.createElement('li');
         li.className = 'tarefa-card';
-        const dataFormatada = this.dataCriacao.toLocaleDateString('pt-BR', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        });
+        let exibicaoDataLimite = '';
+        if (this.dataLimite) {
+            const [ano, mes, dia] = this.dataLimite.split('-');
+            exibicaoDataLimite = `<small class="alerta-data">${dia}/${mes}/${ano}</small>`;
+        }
         li.innerHTML = `
-            <div>
-                <h3>${this.titulo}</h3>
-                ${this.descricao ? `<p>${this.descricao}</p>` : ''}
-                <small>📅 Criada em: ${dataFormatada}</small>
+            <div class="tarefa-conteudo">
+                <div>
+                    <h3>${this.titulo}</h3>
+                    ${this.descricao ? `<p>${this.descricao}</p>` : ''}
+                    ${exibicaoDataLimite}
+                </div>
+                <button class="delete-btn" title="Excluir tarefa">✕</button>
             </div>
-            <label style="margin-top: 10px; display: block;">
+            <label style="margin-top: 15px; display: block;">
                 <input type="checkbox" class="status-checkbox"> Concluída
             </label>
         `;
         const checkbox = li.querySelector('.status-checkbox');
         checkbox.addEventListener('change', () => {
             this.concluida = checkbox.checked;
-            // Se tiver marcada, adiciona a classe CSS '.concluida', se não, remove
             if (this.concluida) {
                 li.classList.add('concluida');
             }
@@ -41,23 +41,29 @@ class Tarefa {
                 li.classList.remove('concluida');
             }
         });
+        const btnDeletar = li.querySelector('.delete-btn');
+        btnDeletar.addEventListener('click', () => {
+            li.remove();
+        });
         return li;
     }
 }
 const btnAdicionar = document.getElementById('addBtn');
 const inputTitulo = document.getElementById('tituloInput');
 const inputDescricao = document.getElementById('descricaoInput');
+const inputDataLimite = document.getElementById('dataLimiteInput');
 const listaTarefas = document.getElementById('listaTarefas');
 btnAdicionar.addEventListener('click', () => {
     const titulo = inputTitulo.value.trim();
     const descricao = inputDescricao.value.trim();
-    //não deixa criar tarefa sem título
+    const dataLimite = inputDataLimite.value;
     if (titulo === "") {
         alert("Por favor, digite um título para a tarefa!");
         return;
     }
-    const novaTarefa = new Tarefa(titulo, descricao);
+    const novaTarefa = new Tarefa(titulo, descricao, dataLimite);
     listaTarefas.appendChild(novaTarefa.renderizar());
     inputTitulo.value = "";
     inputDescricao.value = "";
+    inputDataLimite.value = "";
 });
